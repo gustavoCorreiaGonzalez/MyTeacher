@@ -1,0 +1,32 @@
+{
+  "name": "myteacher",
+  "version": "1.0.0",
+  "description": "api rest para um sistema de aulas particulares",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "aulas",
+    "professor",
+    "api"
+  ],
+  "author": "Gustavo Correia Gonzalez e Emerson Yudi Nakashima",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "consign": "^0.1.4",
+    "express": "^4.15.3",
+    "express-validator": "^3.2.0",
+    "mysql": "^2.13.0",
+    "restify": "^4.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustavoCorreiaGonzalez/MyTeacher.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gustavoCorreiaGonzalez/MyTeacher/issues"
+  },
+  "homepage": "https://github.com/gustavoCorreiaGonzalez/MyTeacher#readme"
+}
