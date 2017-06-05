@@ -2,12 +2,20 @@ function usuarioDAO(connection){
 	this._connection = connection
 }
 
-usuarioDAO.prototype.salva = function(professor, callback){
-	this._connection.query('INSERT INTO usuarios SET ?', professor, callback)
+usuarioDAO.prototype.salva = function(usuario, callback){
+	this._connection.query('INSERT INTO usuarios SET ?', usuario, callback)
 }
 
-usuarioDAO.prototype.atualiza = function(professor, callback){
-	this._connection.query('UPDATE usuarios SET status = ? WHERE id = ?', [professor.status, professor.id], callback)
+usuarioDAO.prototype.atualiza = function(usuario, callback){
+	this._connection.query(
+		'UPDATE usuarios SET nome = ?, email = ?, senha = ?, data_nascimento = ?, sexo = ? WHERE id = ?', 
+		[usuario.nome, usuario.email, usuario.senha, usuario.data_nascimento, usuario.sexo, usuario.id], 
+		callback
+	)
+}
+
+usuarioDAO.prototype.atualizaStatus = function(usuario, callback){
+	this._connection.query('UPDATE usuarios SET status = ? WHERE id = ?', [usuario.status, usuario.id], callback)
 }
 
 usuarioDAO.prototype.lista = function(callback){

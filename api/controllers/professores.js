@@ -158,9 +158,20 @@ module.exports = function(app){
 					}
 				})
 
-				
+				// var documento = req.body['documento']
+				// documento.usuarios_id = usuario.id
 
-				// documentos
+				// var documentoDAO = new app.persistencia.documentoDAO(connection)
+
+				// documentoDAO.salva(documento, function(erro, resultadoDocumento){
+				// 	if (erro) {
+				// 		console.log('erro ao inserir o documento no banco: '+ erro)
+				// 		res.status(500).send(erro)
+				// 		return
+				// 	} else {
+				// 		console.log('Professor criado!')
+				// 	}
+				// })
 				
 				// enderecos
 				
