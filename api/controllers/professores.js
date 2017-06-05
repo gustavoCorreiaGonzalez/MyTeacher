@@ -84,14 +84,17 @@ module.exports = function(app){
 
 	app.post('/professores/professor', function(req, res){
 
-		req.assert("nome", "Nome do professor eh obrigatorio").notEmpty()
-		req.assert("email", "Email eh obrigatorio").notEmpty()
-		req.assert("senha", "Senha eh obrigatorio").notEmpty()
-		req.assert("data_nascimento", "Data de Nascimento eh obrigatorio").notEmpty()
-		req.assert("sexo", "Sexo eh obrigatorio").notEmpty()
-		req.assert("curso", "Curso eh obrigatorio").notEmpty()
-		req.assert("periodo", "Período eh obrigatorio").notEmpty()
-		req.assert("tempo_resposta", "Tempo de Resposta eh obrigatorio").notEmpty()
+		// campos do usuário
+		req.assert("usuario.nome", "Nome do professor eh obrigatorio").notEmpty()
+		req.assert("usuario.email", "Email eh obrigatorio").notEmpty()
+		req.assert("usuario.senha", "Senha eh obrigatorio").notEmpty()
+		req.assert("usuario.data_nascimento", "Data de Nascimento eh obrigatorio").notEmpty()
+		req.assert("usuario.sexo", "Sexo eh obrigatorio").notEmpty()
+			
+		// campos do professor
+		req.assert("professor.curso", "Curso eh obrigatorio").notEmpty()
+		req.assert("professor.periodo", "Período eh obrigatorio").notEmpty()
+		req.assert("professor.tempo_resposta", "Tempo de Resposta eh obrigatorio").notEmpty()
 
 		var erros = req.validationErrors()
 
@@ -101,44 +104,59 @@ module.exports = function(app){
 			return
 		}
 
-		var professor = req.body
-		console.log('processando uma requisicao de um novo professor')
-
-		professor.status = 'CRIADO'
+		var usuario = req.body['usuario']
 
 		var connection = app.persistencia.connectionFactory()
-		var professorDAO = new app.persistencia.professorDAO(connection)
+		var usuarioDAO = new app.persistencia.usuarioDAO(connection)
 
-		professorDAO.salva(professor, function(erro, resultado){
+		usuarioDAO.salva(usuario, function(erro, resultado){
 			if (erro) {
 				console.log('erro ao inserir no banco: '+ erro)
 				res.status(500).send(erro)
 			} else {
-				console.log('Professor Criado!')
-
-				professor.id = resultado.insertId
-
-				
-				res.location('/professores/professor/' + professor.id)
-
-				var response = {
-					dados_do_professor: professor,
-					links: [
-						{
-							href:"http://localhost:3000/professores/professor/" + professor.id,
-							rel:"ativar",
-							method:"PUT"
-						},
-						{
-							href:"http://localhost:3000/professores/professor/" + professor.id,
-							rel:"deletar",
-							method:"DELETE"	
-						}
-					]
-				}
-
-				res.status(201).json(response)
+				console.log('Usuário Criado!')
 			}
 		})
+
+
+		// var professor = req.body['professor']
+		// console.log('processando uma requisicao de um novo professor')
+
+		// professor.status = 'CRIADO'
+
+		// var connection = app.persistencia.connectionFactory()
+		// var professorDAO = new app.persistencia.professorDAO(connection)
+
+		// professorDAO.salva(professor, function(erro, resultado){
+		// 	if (erro) {
+		// 		console.log('erro ao inserir no banco: '+ erro)
+		// 		res.status(500).send(erro)
+		// 	} else {
+		// 		console.log('Professor Criado!')
+
+		// 		professor.id = resultado.insertId
+
+				
+		// 		res.location('/professores/professor/' + professor.id)
+
+		// 		var response = {
+		// 			dados_do_professor: professor,
+		// 			links: [
+		// 				{
+		// 					href:"http://localhost:3000/professores/professor/" + professor.id,
+		// 					rel:"ativar",
+		// 					method:"PUT"
+		// 				},
+		// 				{
+		// 					href:"http://localhost:3000/professores/professor/" + professor.id,
+		// 					rel:"deletar",
+		// 					method:"DELETE"	
+		// 				}
+		// 			]
+		// 		}
+
+		// 		res.status(201).json(response)
+		// 	}
+		// })
 	})
 }
