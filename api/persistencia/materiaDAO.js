@@ -2,12 +2,13 @@ function materiaDAO(connection){
 	this._connection = connection
 }
 
-materiaDAO.prototype.salva = function(professor, callback){
-	this._connection.query('INSERT INTO materias SET ?', professor, callback)
+materiaDAO.prototype.salva = function(materias, callback){
+	for(var i=0; i< materias.length; i++)
+		this._connection.query('INSERT INTO materias SET ?', materias[i], callback)
 }
 
-materiaDAO.prototype.atualiza = function(professor, callback){
-	this._connection.query('UPDATE materias SET status = ? WHERE id = ?', [professor.status, professor.id], callback)
+materiaDAO.prototype.atualiza = function(materias, callback){
+	this._connection.query('UPDATE materias SET status = ? WHERE id = ?', [materias.status, materias.id], callback)
 }
 
 materiaDAO.prototype.lista = function(callback){
