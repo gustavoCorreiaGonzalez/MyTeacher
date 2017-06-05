@@ -105,58 +105,87 @@ module.exports = function(app){
 		}
 
 		var usuario = req.body['usuario']
+		usuario.status = 'ATIVO'
 
 		var connection = app.persistencia.connectionFactory()
 		var usuarioDAO = new app.persistencia.usuarioDAO(connection)
 
-		usuarioDAO.salva(usuario, function(erro, resultado){
+		usuarioDAO.salva(usuario, function(erro, resultadoUsuario){
 			if (erro) {
-				console.log('erro ao inserir no banco: '+ erro)
+				console.log('erro ao inserir o usuário no banco: '+ erro)
 				res.status(500).send(erro)
+				return
 			} else {
-				console.log('Usuário Criado!')
-			}
-		})
+				console.log('Usuário criado!')
 
+				usuario.id = resultadoUsuario.insertId
 
-		// var professor = req.body['professor']
-		// console.log('processando uma requisicao de um novo professor')
+				var professor = req.body['professor']
+				professor.usuarios_id = usuario.id
 
-		// professor.status = 'CRIADO'
+				console.log('Processando uma requisicao de um novo professor')
 
-		// var connection = app.persistencia.connectionFactory()
-		// var professorDAO = new app.persistencia.professorDAO(connection)
+				var connection = app.persistencia.connectionFactory()
+				var professorDAO = new app.persistencia.professorDAO(connection)
 
-		// professorDAO.salva(professor, function(erro, resultado){
-		// 	if (erro) {
-		// 		console.log('erro ao inserir no banco: '+ erro)
-		// 		res.status(500).send(erro)
-		// 	} else {
-		// 		console.log('Professor Criado!')
+				professorDAO.salva(professor, function(erro, resultadoProfessor){
+					if (erro) {
+						console.log('erro ao inserir o professor no banco: '+ erro)
+						res.status(500).send(erro)
+						return
+					} else {
+						console.log('Professor criado!')
 
-		// 		professor.id = resultado.insertId
+						professor.id = resultadoProfessor.insertId
+
+						var materias = req.body['materias']
+
+						for(var i=0; i< materias.length; i++)
+							materias[i].professores_id = professor.id
+
+						var connection = app.persistencia.connectionFactory()
+						var materiaDAO = new app.persistencia.materiaDAO(connection)
+
+						materiaDAO.salva(materias, function(erro, resultadoMateria){
+							if (erro) {
+								console.log('erro ao inserir a matéria no banco: '+ erro)
+								res.status(500).send(erro)
+								return
+							} else {
+								console.log('Matéria criada!')						
+							}
+						})
+					}
+				})
 
 				
-		// 		res.location('/professores/professor/' + professor.id)
 
-		// 		var response = {
-		// 			dados_do_professor: professor,
-		// 			links: [
-		// 				{
-		// 					href:"http://localhost:3000/professores/professor/" + professor.id,
-		// 					rel:"ativar",
-		// 					method:"PUT"
-		// 				},
-		// 				{
-		// 					href:"http://localhost:3000/professores/professor/" + professor.id,
-		// 					rel:"deletar",
-		// 					method:"DELETE"	
-		// 				}
-		// 			]
-		// 		}
+				// documentos
+				
+				// enderecos
+				
+				// contas bancarias
+				
+				res.location('/professores/professor/' + usuario.id)
 
-		// 		res.status(201).json(response)
-		// 	}
-		// })
+				var response = {
+					dados_do_professor: professor,
+					links: [
+						{
+							href:"http://localhost:3000/professores/professor/" + usuario.id,
+							rel:"ativar",
+							method:"PUT"
+						},
+						{
+							href:"http://localhost:3000/professores/professor/" + usuario.id,
+							rel:"desativar",
+							method:"DELETE"	
+						}
+					]
+				}
+
+				res.status(201).json(response)
+			}
+		})		
 	})
 }
