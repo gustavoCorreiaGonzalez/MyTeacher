@@ -158,24 +158,69 @@ module.exports = function(app){
 					}
 				})
 
-				// var documento = req.body['documento']
-				// documento.usuarios_id = usuario.id
+				var documento = req.body['documento']
+				documento.usuarios_id = usuario.id
 
-				// var documentoDAO = new app.persistencia.documentoDAO(connection)
+				var documentoDAO = new app.persistencia.documentoDAO(connection)
 
-				// documentoDAO.salva(documento, function(erro, resultadoDocumento){
-				// 	if (erro) {
-				// 		console.log('erro ao inserir o documento no banco: '+ erro)
-				// 		res.status(500).send(erro)
-				// 		return
-				// 	} else {
-				// 		console.log('Professor criado!')
-				// 	}
-				// })
+				documentoDAO.salva(documento, function(erro, resultadoDocumento){
+					if (erro) {
+						console.log('erro ao inserir o documento no banco: '+ erro)
+						res.status(500).send(erro)
+						return
+					} else {
+						console.log('Documento criado!')
+					}
+				})
 				
-				// enderecos
+				var enderecos = req.body['enderecos']
+
+				for(var i=0; i< enderecos.length; i++)
+					enderecos[i].usuarios_id = usuario.id
+
+				var enderecoDAO = new app.persistencia.enderecoDAO(connection)
+
+				enderecoDAO.salva(enderecos, function(erro, resultadoEndereco){
+					if (erro) {
+						console.log('erro ao inserir o endereço no banco: '+ erro)
+						res.status(500).send(erro)
+						return
+					} else {
+						console.log('Endereço criado!')
+					}
+				})
 				
-				// contas bancarias
+				var contas_bancarias = req.body['contas_bancarias']
+
+				for(var i=0; i< contas_bancarias.length; i++)
+					contas_bancarias[i].usuarios_id = usuario.id
+
+				var contaBancariaDAO = new app.persistencia.contaBancariaDAO(connection)
+
+				contaBancariaDAO.salva(contas_bancarias, function(erro, resultadoContabancaria){
+					if (erro) {
+						console.log('erro ao inserir a conta bancária no banco: '+ erro)
+						res.status(500).send(erro)
+						return
+					} else {
+						console.log('Conta bancária criada!')
+					}
+				})
+
+				var contato = req.body['contato']
+				contato.usuarios_id = usuario.id
+
+				var contatoDAO = new app.persistencia.contatoDAO(connection)
+
+				contatoDAO.salva(contato, function(erro, resultadoContato){
+					if (erro) {
+						console.log('erro ao inserir o contato no banco: '+ erro)
+						res.status(500).send(erro)
+						return
+					} else {
+						console.log('Contato criado!')
+					}
+				})
 				
 				res.location('/professores/professor/' + usuario.id)
 
