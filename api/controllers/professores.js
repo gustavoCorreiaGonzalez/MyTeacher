@@ -32,8 +32,8 @@ module.exports = function(app){
 				return
 			}
 
-			console.log('Professor encontrado: ' + JSON.stringify(resultado))
-			res.status(200).json(resultado)
+			console.log('Professor encontrado: ' + JSON.stringify(resultado[0]))
+			res.status(200).json(resultado[0])
 		})
 
 	})

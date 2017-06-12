@@ -19,11 +19,17 @@ professorDAO.prototype.atualizaStatus = function(professor, callback){
 }
 
 professorDAO.prototype.lista = function(callback){
-	this._connection.query('SELECT * FROM professores', callback)
+	this._connection.query(
+		'SELECT * FROM usuarios AS u INNER JOIN professores AS p ON u.id = p.usuarios_id',
+		callback
+	)
 }
 
 professorDAO.prototype.buscaPorId = function(id, callback){
-	this._connection.query('SELECT * FROM professores WHERE id = ?', [id], callback)
+	this._connection.query(
+		'SELECT * FROM usuarios AS u INNER JOIN professores AS p ON u.id = p.usuarios_id WHERE p.id = ?', [id],
+		callback
+	)
 }
 
 professorDAO.prototype.buscaPorIdDoUsuario = function(id, callback){
