@@ -1,0 +1,76 @@
+{
+	
+	"usuario": {
+		"nome": "João",
+		"email": "joao@gmail.com",
+		"senha": "joao123",
+		"data_nascimento": "01/01/2001",
+		"sexo": "Masculino"
+	},
+
+	"professor": {
+		"curso": "BCC",
+		"periodo": "8",
+		"tempo_resposta": "2 horas"
+	},
+	
+	"materias": [
+		{
+			"nome": "matemática",
+			"area": "exatas"
+		},
+		{
+			"nome": "física",
+			"area": "exatas"	
+		}
+	],
+
+	"enderecos": [
+		{
+			"rua": "teste",
+			"numero": 2,
+			"bairro": "teste",
+			"cidade": "teste",
+			"estado": "PR",
+			"cep": 111111,
+			"complemento": "teste"
+		},
+		{
+			"rua": "teste2",
+			"numero": 22,
+			"bairro": "teste2",
+			"cidade": "teste2",
+			"estado": "SP",
+			"cep": 222222,
+			"complemento": "teste2"
+		}
+	],
+
+	"documento": {
+		"rg": 1111111,
+		"orgao_emissor": "ssp",
+		"cpf": 11111111111
+	},
+
+	"contas_bancarias": [
+		{
+			"nome": "João",
+			"numero": 11111111111,
+			"agencia": 11111,
+			"banco": "Banco do Brasil",
+			"codigo": 111
+		},
+		{
+			"nome": "Maria",
+			"numero": 22222222222,
+			"agencia": 22222,
+			"banco": "Itau",
+			"codigo": 222
+		}
+	],
+
+	"contato": {
+		"telefone": 1111111111111,
+		"celular": 1111111111111
+	}
+}
