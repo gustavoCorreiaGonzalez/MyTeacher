@@ -1,19 +1,19 @@
 module.exports = function(app){
 	
-	app.get('/professores', function(req, res){
+	app.get('/clientes', function(req, res){
 
 		var connection = app.persistencia.connectionFactory()
-		var professorDAO = new app.persistencia.professorDAO(connection)
+		var clienteDAO = new app.persistencia.clienteDAO(connection)
 
-		professorDAO.lista(function(erro, resultado){
+		clienteDAO.lista(function(erro, resultado){
 			if (erro) {
 				console.log('Erro ao consultar no banco: ' + erro)
 				res.status(500).send(erro)
 				return
 			}
 
-			if (resultado.length == 0) {
-				console.log('Nenhum professor')
+ 			if (resultado.length == 0) {
+				console.log('Nenhum cliente')
 				res.status(204).json()
 			} else {			
 				res.status(200).json(resultado)
@@ -21,11 +21,11 @@ module.exports = function(app){
 		})
 	})
 
-	app.get('/professores/:id', function(req, res){
+	app.get('/clientes/:id', function(req, res){
 
 		var id = req.params.id
 
-		console.log('Consultando professor: ' + id)
+		console.log('Consultando cliente: ' + id)
 
 		var memcachedClient = app.servicos.memcachedClient()
 
@@ -34,9 +34,9 @@ module.exports = function(app){
 				console.log('MISS - chave não encontrada')
 
 				var connection = app.persistencia.connectionFactory()
-				var professorDAO = new app.persistencia.professorDAO(connection)	
+				var clienteDAO = new app.persistencia.clienteDAO(connection)	
 
-				professorDAO.buscaPorIdDoUsuario(id, function(erro, resultado){
+				clienteDAO.buscaPorIdDoUsuario(id, function(erro, resultado){
 					if (erro) {
 						console.log('Erro ao consultar no banco: ' + erro)
 						res.status(500).send(erro)
@@ -44,10 +44,10 @@ module.exports = function(app){
 					}
 
 					if (resultado.length == 0) {
-						console.log('Nenhum professor encontrado com o id: ' + id)
+						console.log('Nenhum cliente encontrado com o id: ' + id)
 						res.status(204).json()
 					} else {
-						console.log('Professor encontrado: ' + JSON.stringify(resultado[0]))
+						console.log('Cliente encontrado: ' + JSON.stringify(resultado[0]))
 						res.status(200).json(resultado[0])
 					}
 				})
@@ -60,63 +60,58 @@ module.exports = function(app){
 		})
 	})
 
-	app.delete('/professores/:id', function(req, res){
+	app.delete('/clientes/:id', function(req, res){
 
 		var id = req.params.id
-		var professor = {}
+		var cliente = {}
 
-		professor.id = id
-		professor.status = 'DELETADO'
+		cliente.id = id
+		cliente.status = 'DELETADO'
 
 		var connection = app.persistencia.connectionFactory()
-		var professorDAO = new app.persistencia.professorDAO(connection)
+		var clienteDAO = new app.persistencia.clienteDAO(connection)
 
-		professorDAO.atualiza(professor, function(erro){
+		clienteDAO.atualiza(cliente, function(erro){
 			if (erro) {
 				res.status(500).send(erro)
 				return
 			} 
 			
-			console.log('Professor Deletado!')
-			res.status(204).send(professor)
+			console.log('Cliente Deletado!')
+			res.status(204).send(cliente)
 		})
 	})
 
-	app.put('/professores/:id', function(req, res){
+	app.put('/clientes/:id', function(req, res){
 
 		var id = req.params.id
-		var professor = {}
+		var cliente = {}
 
-		professor.id = id
-		professor.status = 'ATIVO'
+		cliente.id = id
+		cliente.status = 'ATIVO'
 
 		var connection = app.persistencia.connectionFactory()
-		var professorDAO = new app.persistencia.professorDAO(connection)
+		var clienteDAO = new app.persistencia.clienteDAO(connection)
 
-		professorDAO.atualiza(professor, function(erro){
+		clienteDAO.atualiza(cliente, function(erro){
 			if (erro) {
 				res.status(500).send(erro)
 				return
 			} 
 			
-			console.log('Professor Atualizado!')
-			res.send(professor)
+			console.log('Cliente Atualizado!')
+			res.send(cliente)
 		})
 	})
 
-	app.post('/professores', function(req, res){
+	app.post('/clientes', function(req, res){
 
 		// campos do usuário
-		req.assert("usuario.nome", "Nome do professor eh obrigatorio").notEmpty()
+		req.assert("usuario.nome", "Nome do cliente eh obrigatorio").notEmpty()
 		req.assert("usuario.email", "Email eh obrigatorio").notEmpty()
 		req.assert("usuario.senha", "Senha eh obrigatorio").notEmpty()
 		req.assert("usuario.data_nascimento", "Data de Nascimento eh obrigatorio").notEmpty()
 		req.assert("usuario.sexo", "Sexo eh obrigatorio").notEmpty()
-			
-		// campos do professor
-		req.assert("professor.curso", "Curso eh obrigatorio").notEmpty()
-		req.assert("professor.periodo", "Período eh obrigatorio").notEmpty()
-		req.assert("professor.tempo_resposta", "Tempo de Resposta eh obrigatorio").notEmpty()
 
 		var erros = req.validationErrors()
 
@@ -142,10 +137,10 @@ module.exports = function(app){
 
 				usuario.id = resultadoUsuario.insertId
 
-				var professor = req.body['professor']
-				professor.usuarios_id = usuario.id
+				var cliente = req.body['cliente']
+				cliente.usuarios_id = usuario.id
 
-				console.log('Processando uma requisicao de um novo professor')
+				console.log('Processando uma requisicao de um novo cliente')
 
 				var memcachedClient = app.servicos.memcachedClient()
 
@@ -160,33 +155,33 @@ module.exports = function(app){
 				})
 
 				var connection = app.persistencia.connectionFactory()
-				var professorDAO = new app.persistencia.professorDAO(connection)
+				var clienteDAO = new app.persistencia.clienteDAO(connection)
 
-				professorDAO.salva(professor, function(erro, resultadoProfessor){
+				clienteDAO.salva(cliente, function(erro, resultadoCliente){
 					if (erro) {
-						console.log('erro ao inserir o professor no banco: '+ erro)
+						console.log('erro ao inserir o cliente no banco: '+ erro)
 						res.status(500).send(erro)
 						return
 					} else {
-						console.log('Professor criado!')
+						console.log('cliente criado!')
 
-						professor.id = resultadoProfessor.insertId
+						cliente.id = resultadoCliente.insertId
 
-						var materias = req.body['materias']
+						var dependentes = req.body['dependentes']
 
-						for(var i=0; i< materias.length; i++)
-							materias[i].professores_id = professor.id
+						for(var i=0; i< dependentes.length; i++)
+							dependentes[i].clientes_id = cliente.id
 
 						var connection = app.persistencia.connectionFactory()
-						var materiaDAO = new app.persistencia.materiaDAO(connection)
+						var dependenteDAO = new app.persistencia.dependenteDAO(connection)
 
-						materiaDAO.salva(materias, function(erro, resultadoMateria){
+						dependenteDAO.salva(dependentes, function(erro, resultadoDependente){
 							if (erro) {
-								console.log('erro ao inserir a(s) matéria(s) no banco: '+ erro)
+								console.log('erro ao inserir o(s) dependente(s) no banco: '+ erro)
 								res.status(500).send(erro)
 								return
 							} else {
-								console.log('Matéria criada!')						
+								console.log('Dependente(s) criado(s)!')						
 							}
 						})
 					}
@@ -256,18 +251,18 @@ module.exports = function(app){
 					}
 				})
 				
-				res.location('/professores/professor/' + usuario.id)
+				res.location('/clientes/cliente/' + usuario.id)
 
 				var response = {
-					dados_do_professor: professor,
+					dados_do_cliente: cliente,
 					links: [
 						{
-							href:"http://localhost:3000/professores/professor/" + usuario.id,
+							href:"http://localhost:3000/clientes/cliente/" + usuario.id,
 							rel:"ativar",
 							method:"PUT"
 						},
 						{
-							href:"http://localhost:3000/professores/professor/" + usuario.id,
+							href:"http://localhost:3000/clientes/cliente/" + usuario.id,
 							rel:"desativar",
 							method:"DELETE"	
 						}
@@ -276,6 +271,6 @@ module.exports = function(app){
 
 				res.status(201).json(response)
 			}
-		})		
+		})
 	})
 }

@@ -27,7 +27,7 @@ professorDAO.prototype.lista = function(callback){
 
 professorDAO.prototype.buscaPorId = function(id, callback){
 	this._connection.query(
-		'SELECT * FROM usuarios AS u INNER JOIN professores AS p ON u.id = p.usuarios_id WHERE p.usuarios_id = ?', [id],
+		'SELECT * FROM usuarios AS u INNER JOIN professores AS p ON u.id = p.usuarios_id WHERE p.id = ?', [id],
 		callback
 	)
 }
