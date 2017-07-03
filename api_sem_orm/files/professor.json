@@ -4,14 +4,14 @@
 		"nome": "João",
 		"email": "joao@gmail.com",
 		"senha": "joao123",
-		"data_nascimento": "01/01/2001",
+		"data_nascimento": "2000-07-01",
 		"sexo": "Masculino"
 	},
 
 	"professor": {
 		"curso": "BCC",
 		"periodo": "8",
-		"tempo_resposta": "2 horas"
+		"tempo_resposta": 2
 	},
 	
 	"materias": [

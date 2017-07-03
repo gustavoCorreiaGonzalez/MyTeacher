@@ -1,11 +1,11 @@
-module.exports = function(app){
+module.exports = function(app) {
 	
-	app.get('/aulas', function(req, res){
+	app.get('/api/aulas', function(req, res) {
 
 		var connection = app.persistencia.connectionFactory()
 		var aulaDAO = new app.persistencia.aulaDAO(connection)
 
-		aulaDAO.lista(function(erro, resultado){
+		aulaDAO.lista(function(erro, resultado) {
 			if (erro) {
 				console.log('Erro ao consultar no banco: ' + erro)
 				res.status(500).send(erro)
@@ -21,7 +21,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.get('/aulas/:id', function(req, res){
+	app.get('/api/aulas/:id', function(req, res) {
 
 		var id = req.params.id
 
@@ -36,7 +36,7 @@ module.exports = function(app){
 				var connection = app.persistencia.connectionFactory()
 				var aulaDAO = new app.persistencia.aulaDAO(connection)	
 
-				aulaDAO.buscaPorId(id, function(erro, resultado){
+				aulaDAO.buscaPorId(id, function(erro, resultado) {
 					if (erro) {
 						console.log('Erro ao consultar no banco: ' + erro)
 						res.status(500).send(erro)
@@ -60,7 +60,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.delete('/aulas/:id', function(req, res){
+	app.delete('/api/status/aulas/:id', function(req, res) {
 
 		var id = req.params.id
 		var aula = {}
@@ -71,7 +71,7 @@ module.exports = function(app){
 		var connection = app.persistencia.connectionFactory()
 		var aulaDAO = new app.persistencia.aulaDAO(connection)
 
-		aulaDAO.atualiza(aula, function(erro){
+		aulaDAO.atualizaStatus(aula, function(erro) {
 			if (erro) {
 				res.status(500).send(erro)
 				return
@@ -82,7 +82,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.put('/aulas/:id', function(req, res){
+	app.put('/api/status/aulas/:id', function(req, res) {
 
 		var id = req.params.id
 		var aula = {}
@@ -93,7 +93,7 @@ module.exports = function(app){
 		var connection = app.persistencia.connectionFactory()
 		var aulaDAO = new app.persistencia.aulaDAO(connection)
 
-		aulaDAO.atualizaStatus(aula, function(erro){
+		aulaDAO.atualizaStatus(aula, function(erro) {
 			if (erro) {
 				res.status(500).send(erro)
 				return
@@ -104,7 +104,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.post('/aulas', function(req, res){
+	app.post('/api/aulas', function(req, res) {
 
 		// campos da aula
 		req.assert("assunto", "Nome do aula eh obrigatorio").notEmpty()
@@ -124,11 +124,12 @@ module.exports = function(app){
 		var aula = req.body
 
 		aula.preco = app.servicos.calculoPreco(aula)
+		aula.status = 'ESPERA'
 
 		var connection = app.persistencia.connectionFactory()
 		var aulaDAO = new app.persistencia.aulaDAO(connection)
 
-		aulaDAO.salva(aula, function(erro, resultadoaula){
+		aulaDAO.salva(aula, function(erro, resultadoaula) {
 			if (erro) {
 				console.log('erro ao inserir o usuário no banco: '+ erro)
 				res.status(500).send(erro)

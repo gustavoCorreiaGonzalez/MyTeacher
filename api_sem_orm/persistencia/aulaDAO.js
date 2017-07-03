@@ -8,8 +8,8 @@ aulaDAO.prototype.salva = function(aula, callback){
 
 aulaDAO.prototype.atualiza = function(aula, callback){
 	this._connection.query(
-		'UPDATE aulas SET curso = ?, periodo = ?, tempo_resposta = ? WHERE id = ?',
-		[aula.cruso, aula.periodo, aula.tempo_resposta, aula.id], 
+		'UPDATE aulas SET assunto = ?, tipo = ?, data_inicio = ?, data_fim = ?, preco = ? WHERE id = ?',
+		[aula.assunto, aula.tipo, aula.data_inicio, aula.data_fim, aula.preco, aula.id], 
 		callback
 	)
 }
@@ -19,17 +19,11 @@ aulaDAO.prototype.atualizaStatus = function(aula, callback){
 }
 
 aulaDAO.prototype.lista = function(callback){
-	this._connection.query(
-		'SELECT * FROM aulas',
-		callback
-	)
+	this._connection.query('SELECT * FROM aulas WHERE status != "DELETADO"', callback)
 }
 
 aulaDAO.prototype.buscaPorId = function(id, callback){
-	this._connection.query(
-		'SELECT * FROM aulas WHERE id = ?', [id],
-		callback
-	)
+	this._connection.query('SELECT * FROM aulas WHERE id = ?', [id], callback)
 }
 
 aulaDAO.prototype.buscaPorIdDoCliente = function(id, callback){

@@ -1,0 +1,45 @@
+{
+	
+	"usuario": {
+		"nome": "João Cliente",
+		"email": "joao@gmail.com",
+		"senha": "joao123",
+		"data_nascimento": "2000-07-01",
+		"sexo": "Masculino"
+	},
+	
+	"dependente": {
+		"nome": "João Júnior",
+		"escola": "da esquina",
+		"ano_letivo": "2 fundamental"
+	},
+		
+	"endereco": {
+		"rua": "testesdasdasd",
+		"numero": 2,
+		"bairro": "teste",
+		"cidade": "teste",
+		"estado": "PR",
+		"cep": 111111,
+		"complemento": "teste"
+	},
+		
+	"documento": {
+		"rg": 1111111,
+		"orgao_emissor": "pr",
+		"cpf": 11111111111
+	},
+
+	"conta_bancaria": {
+		"nome": "Maria",
+		"numero": 22222222222,
+		"agencia": 22222,
+		"banco": "BRADESCO",
+		"codigo": 222
+	},
+
+	"contato": {
+		"telefone": 2222211111111,
+		"celular": 1111111111111
+	}
+}

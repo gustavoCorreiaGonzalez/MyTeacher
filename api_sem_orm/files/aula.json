@@ -1,9 +1,9 @@
 {
 	"assunto": "Equações de primeiro grau",
 	"tipo": "Reforço",
-	"data_inicio": "2017-07-01T07:00:00Z",
-	"data_fim": "2017-07-01T10:00:00Z",
+	"data_inicio": "2017-07-01T07:00:00",
+	"data_fim": "2017-07-01T10:00:00",
 	"status": "REQUERIDA",
-	"clientes_id": 3,
-	"professores_id": 35
+	"clientes_id": 1,
+	"professores_id": 1
 }

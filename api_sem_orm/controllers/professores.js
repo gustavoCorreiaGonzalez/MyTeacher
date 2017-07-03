@@ -1,11 +1,11 @@
-module.exports = function(app){
+module.exports = function(app) {
 	
-	app.get('/professores', function(req, res){
+	app.get('/api/professores', function(req, res) {
 
 		var connection = app.persistencia.connectionFactory()
 		var professorDAO = new app.persistencia.professorDAO(connection)
 
-		professorDAO.lista(function(erro, resultado){
+		professorDAO.lista(function(erro, resultado) {
 			if (erro) {
 				console.log('Erro ao consultar no banco: ' + erro)
 				res.status(500).send(erro)
@@ -21,7 +21,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.get('/professores/:id', function(req, res){
+	app.get('/api/professores/:id', function(req, res) {
 
 		var id = req.params.id
 
@@ -36,7 +36,7 @@ module.exports = function(app){
 				var connection = app.persistencia.connectionFactory()
 				var professorDAO = new app.persistencia.professorDAO(connection)	
 
-				professorDAO.buscaPorIdDoUsuario(id, function(erro, resultado){
+				professorDAO.buscaPorIdDoUsuario(id, function(erro, resultado) {
 					if (erro) {
 						console.log('Erro ao consultar no banco: ' + erro)
 						res.status(500).send(erro)
@@ -60,7 +60,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.delete('/professores/:id', function(req, res){
+	app.delete('/api/status/professores/:id', function(req, res) {
 
 		var id = req.params.id
 		var professor = {}
@@ -71,7 +71,7 @@ module.exports = function(app){
 		var connection = app.persistencia.connectionFactory()
 		var professorDAO = new app.persistencia.professorDAO(connection)
 
-		professorDAO.atualiza(professor, function(erro){
+		professorDAO.atualizaStatus(professor, function(erro) {
 			if (erro) {
 				res.status(500).send(erro)
 				return
@@ -82,7 +82,7 @@ module.exports = function(app){
 		})
 	})
 
-	app.put('/professores/:id', function(req, res){
+	app.put('/api/status/professores/:id', function(req, res) {
 
 		var id = req.params.id
 		var professor = {}
@@ -93,7 +93,7 @@ module.exports = function(app){
 		var connection = app.persistencia.connectionFactory()
 		var professorDAO = new app.persistencia.professorDAO(connection)
 
-		professorDAO.atualiza(professor, function(erro){
+		professorDAO.atualizaStatus(professor, function(erro){
 			if (erro) {
 				res.status(500).send(erro)
 				return
@@ -104,7 +104,126 @@ module.exports = function(app){
 		})
 	})
 
-	app.post('/professores', function(req, res){
+	app.put('/api/usuario/professores/:id', function(req, res) {
+
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var usuarioDAO = new app.persistencia.usuarioDAO(connection)
+		var usuario = req.body['usuario']
+
+		usuarioDAO.atualiza(usuario, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.put('/api/professor/professores/:id', function(req, res) {
+		
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var professorDAO = new app.persistencia.professorDAO(connection)
+		var professor = req.body['professor']
+
+		professorDAO.atualiza(professor, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.put('/api/endereco/professores/:id', function(req, res) {
+
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var enderecoDAO = new app.persistencia.enderecoDAO(connection)
+		var endereco = req.body['endereco']
+
+		enderecoDAO.atualiza(endereco, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.put('/api/documento/professores/:id', function(req, res) {
+		
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var documentoDAO = new app.persistencia.documentoDAO(connection)
+		var documento = req.body['documento']
+
+		documentoDAO.atualiza(documento, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.put('/api/contabancaria/professores/:id', function(req, res) {
+		
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var contaBancariaDAO = new app.persistencia.contaBancariaDAO(connection)
+		var contas_bancarias = req.body['conta_bancaria']
+
+		contaBancariaDAO.atualiza(contas_bancarias, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.put('/api/contato/professores/:id', function(req, res) {
+
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var contatoDAO = new app.persistencia.contatoDAO(connection)
+		var contato = req.body['contato']
+
+		contatoDAO.atualiza(contato, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.put('/api/materia/professores/:id', function(req, res) {
+
+		var id = req.params.id
+		var connection = app.persistencia.connectionFactory()
+		var materiaDAO = new app.persistencia.materiaDAO(connection)
+		var materia = req.body['materia']
+
+		materiaDAO.atualiza(materia, id, function(erro){
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			}
+
+			return res.status(200).json({mensagem: 'Atualizado com sucesso'})
+		})
+	})
+
+	app.post('/api/professores', function(req, res) {
 
 		// campos do usuário
 		req.assert("usuario.nome", "Nome do professor eh obrigatorio").notEmpty()
@@ -132,7 +251,7 @@ module.exports = function(app){
 		var connection = app.persistencia.connectionFactory()
 		var usuarioDAO = new app.persistencia.usuarioDAO(connection)
 
-		usuarioDAO.salva(usuario, function(erro, resultadoUsuario){
+		usuarioDAO.salva(usuario, function(erro, resultadoUsuario) {
 			if (erro) {
 				console.log('erro ao inserir o usuário no banco: '+ erro)
 				res.status(500).send(erro)
@@ -162,7 +281,7 @@ module.exports = function(app){
 				var connection = app.persistencia.connectionFactory()
 				var professorDAO = new app.persistencia.professorDAO(connection)
 
-				professorDAO.salva(professor, function(erro, resultadoProfessor){
+				professorDAO.salva(professor, function(erro, resultadoProfessor) {
 					if (erro) {
 						console.log('erro ao inserir o professor no banco: '+ erro)
 						res.status(500).send(erro)
@@ -174,13 +293,15 @@ module.exports = function(app){
 
 						var materias = req.body['materias']
 
-						for(var i=0; i< materias.length; i++)
+						for(var i=0; i< materias.length; i++){
 							materias[i].professores_id = professor.id
+							materias[i].status = 'ATIVO'
+						}
 
 						var connection = app.persistencia.connectionFactory()
 						var materiaDAO = new app.persistencia.materiaDAO(connection)
 
-						materiaDAO.salva(materias, function(erro, resultadoMateria){
+						materiaDAO.salva(materias, function(erro, resultadoMateria) {
 							if (erro) {
 								console.log('erro ao inserir a(s) matéria(s) no banco: '+ erro)
 								res.status(500).send(erro)
@@ -194,10 +315,11 @@ module.exports = function(app){
 
 				var documento = req.body['documento']
 				documento.usuarios_id = usuario.id
+				documento.status = 'ATIVO'
 				
 				var documentoDAO = new app.persistencia.documentoDAO(connection)
 
-				documentoDAO.salva(documento, function(erro, resultadoDocumento){
+				documentoDAO.salva(documento, function(erro, resultadoDocumento) {
 					if (erro) {
 						console.log('erro ao inserir o documento no banco: '+ erro)
 						res.status(500).send(erro)
@@ -209,12 +331,14 @@ module.exports = function(app){
 				
 				var enderecos = req.body['enderecos']
 
-				for(var i=0; i< enderecos.length; i++)
+				for(var i=0; i< enderecos.length; i++){
 					enderecos[i].usuarios_id = usuario.id
+					enderecos[i].status = 'ATIVO'
+				}
 
 				var enderecoDAO = new app.persistencia.enderecoDAO(connection)
 
-				enderecoDAO.salva(enderecos, function(erro, resultadoEndereco){
+				enderecoDAO.salva(enderecos, function(erro, resultadoEndereco) {
 					if (erro) {
 						console.log('erro ao inserir o endereço no banco: '+ erro)
 						res.status(500).send(erro)
@@ -226,12 +350,14 @@ module.exports = function(app){
 				
 				var contas_bancarias = req.body['contas_bancarias']
 
-				for(var i=0; i< contas_bancarias.length; i++)
+				for(var i=0; i< contas_bancarias.length; i++){
 					contas_bancarias[i].usuarios_id = usuario.id
+					contas_bancarias[i].status = 'ATIVO'
+				}
 
 				var contaBancariaDAO = new app.persistencia.contaBancariaDAO(connection)
 
-				contaBancariaDAO.salva(contas_bancarias, function(erro, resultadoContabancaria){
+				contaBancariaDAO.salva(contas_bancarias, function(erro, resultadoContabancaria) {
 					if (erro) {
 						console.log('erro ao inserir a conta bancária no banco: '+ erro)
 						res.status(500).send(erro)
@@ -243,10 +369,11 @@ module.exports = function(app){
 
 				var contato = req.body['contato']
 				contato.usuarios_id = usuario.id
+				contato.status = 'ATIVO'
 
 				var contatoDAO = new app.persistencia.contatoDAO(connection)
 
-				contatoDAO.salva(contato, function(erro, resultadoContato){
+				contatoDAO.salva(contato, function(erro, resultadoContato) {
 					if (erro) {
 						console.log('erro ao inserir o contato no banco: '+ erro)
 						res.status(500).send(erro)

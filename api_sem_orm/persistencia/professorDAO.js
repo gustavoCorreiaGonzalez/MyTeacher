@@ -6,16 +6,16 @@ professorDAO.prototype.salva = function(professor, callback){
 	this._connection.query('INSERT INTO professores SET ?', professor, callback)
 }
 
-professorDAO.prototype.atualiza = function(professor, callback){
+professorDAO.prototype.atualiza = function(professor, id, callback){
 	this._connection.query(
 		'UPDATE professores SET curso = ?, periodo = ?, tempo_resposta = ? WHERE id = ?',
-		[professor.cruso, professor.periodo, professor.tempo_resposta, professor.id], 
+		[professor.curso, professor.periodo, professor.tempo_resposta, id], 
 		callback
 	)
 }
 
 professorDAO.prototype.atualizaStatus = function(professor, callback){
-	this._connection.query('UPDATE professores SET status = ? WHERE id = ?', [professor.status, professor.id], callback)
+	this._connection.query('UPDATE professores SET status = ? WHERE usuarios_id = ?', [professor.status, professor.id], callback)
 }
 
 professorDAO.prototype.lista = function(callback){

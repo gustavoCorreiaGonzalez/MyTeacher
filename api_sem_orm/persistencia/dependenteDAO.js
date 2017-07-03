@@ -7,28 +7,33 @@ dependenteDAO.prototype.salva = function(dependentes, callback){
 		this._connection.query('INSERT INTO dependentes SET ?', dependentes[i], callback)
 }
 
-dependenteDAO.prototype.atualiza = function(dependente, callback){
+dependenteDAO.prototype.atualiza = function(dependentes, id, callback){
+	for(var i=0; i< dependentes.length; i++)
+		this._connection.query(
+			'UPDATE dependentes SET nome = ?, escola = ?, ano_letivo = ? WHERE clientes_usuarios_id = ?',
+			[dependente[i].nome, dependente[i].escola, dependente[i].ano_letivo, id], 
+			callback
+		)
+}
+
+dependenteDAO.prototype.atualizaStatus = function(dependente, callback){
 	this._connection.query(
-		'UPDATE dependentes SET nome = ?, area = ? WHERE id = ?',
-		[dependente.nome, dependente.area, dependente.id], 
+		'UPDATE dependentes SET status = ? WHERE clientes_id = ?', 
+		[dependente.status, dependente.id], 
 		callback
 	)
 }
 
-dependenteDAO.prototype.atualizaStatus = function(dependente, callback){
-	this._connection.query('UPDATE dependentes SET status = ? WHERE id = ?', dependente.status, callback)
-}
-
 dependenteDAO.prototype.lista = function(callback){
-	this._connection.query('SELECT * FROM dependentes', callback)
+	this._connection.query('SELECT * FROM dependentes WHERE status != "DELETADO"', callback)
 }
 
 dependenteDAO.prototype.buscaPorId = function(id, callback){
 	this._connection.query('SELECT * FROM dependentes WHERE id = ?', [id], callback)
 }
 
-dependenteDAO.prototype.buscaPorIdDoUsuario = function(id, callback){
-	this._connection.query('SELECT * FROM dependentes WHERE usuarios_id = ?', [id], callback)
+dependenteDAO.prototype.buscaPorIdDoCliente = function(id, callback){
+	this._connection.query('SELECT * FROM dependentes WHERE clientes_id = ?', [id], callback)
 }
 
 module.exports = function(){
