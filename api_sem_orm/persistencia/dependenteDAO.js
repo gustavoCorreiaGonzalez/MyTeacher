@@ -7,13 +7,12 @@ dependenteDAO.prototype.salva = function(dependentes, callback){
 		this._connection.query('INSERT INTO dependentes SET ?', dependentes[i], callback)
 }
 
-dependenteDAO.prototype.atualiza = function(dependentes, id, callback){
-	for(var i=0; i< dependentes.length; i++)
-		this._connection.query(
-			'UPDATE dependentes SET nome = ?, escola = ?, ano_letivo = ? WHERE clientes_usuarios_id = ?',
-			[dependente[i].nome, dependente[i].escola, dependente[i].ano_letivo, id], 
-			callback
-		)
+dependenteDAO.prototype.atualiza = function(dependente, id, callback){
+	this._connection.query(
+		'UPDATE dependentes SET nome = ?, escola = ?, ano_letivo = ? WHERE id = ?',
+		[dependente.nome, dependente.escola, dependente.ano_letivo, id], 
+		callback
+	)
 }
 
 dependenteDAO.prototype.atualizaStatus = function(dependente, callback){

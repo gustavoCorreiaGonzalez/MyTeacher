@@ -189,14 +189,14 @@ module.exports = function(app) {
 		})
 	})
 
-	app.put('/api/materia/clientes/:id', function(req, res) {
+	app.put('/api/dependente/clientes/:id', function(req, res) {
 
 		var id = req.params.id
 		var connection = app.persistencia.connectionFactory()
-		var materiaDAO = new app.persistencia.materiaDAO(connection)
-		var materia = req.body['materia']
+		var dependenteDAO = new app.persistencia.dependenteDAO(connection)
+		var dependente = req.body['dependente']
 
-		materiaDAO.atualiza(materia, id, function(erro){
+		dependenteDAO.atualiza(dependente, id, function(erro){
 			if (erro) {
 				res.status(500).send(erro)
 				return
