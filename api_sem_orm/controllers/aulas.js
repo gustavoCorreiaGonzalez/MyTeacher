@@ -104,6 +104,28 @@ module.exports = function(app) {
 		})
 	})
 
+	app.put('/api/finaliza/aulas/:id', function(req, res) {
+
+		var id = req.params.id
+		var aula = {}
+
+		aula.id = id
+		aula.status = 'FINALIZADA'
+
+		var connection = app.persistencia.connectionFactory()
+		var aulaDAO = new app.persistencia.aulaDAO(connection)
+
+		aulaDAO.atualizaStatus(aula, function(erro) {
+			if (erro) {
+				res.status(500).send(erro)
+				return
+			} 
+			
+			console.log('Aula Atualizada!')
+			res.send(aula)
+		})
+	})
+
 	app.post('/api/aulas', function(req, res) {
 
 		// campos da aula
